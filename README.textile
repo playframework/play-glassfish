@@ -1,4 +1,4 @@
-h1. This a Play container for Glassfish 
+h1. This is a Play container for Glassfish 
 
 It allows to deploy any Play application directly in the Glassfish application server (without to have to package it as WAR archive before).
 
