@@ -1,0 +1,31 @@
+h1. This a Play container for Glassfish 
+
+It allows to deploy any Play application directly in the Glassfish application server (without to have to package it as WAR archive before).
+
+bq. Try the following steps with Glassfish 3.0.1 and "play-1.1-unstable-r1075":http://download.playframework.org/1.1-nightly/play-1.1-unstable-r1075.zip. Also I've my Play installation at /Users/guillaume/Desktop/play/1.1; be sure to change the following commands to match your real installation path
+
+h2. Build the play-container.jar for glassfish
+
+Just run:
+
+bc. mvn package
+
+And copy the *target/play-container.jar* library to *$GLASSFISH_HOME/glassfish/modules*. That's all, the container is installed. It will be available in the glassfish repository once officially released.
+
+h2. Configure the Play container
+
+Start glassfish, and run the **asadmin** command. At the prompt run the following command:
+
+bc. asadmin> play-config --frameworkPath /Users/guillaume/Desktop/play/1.1
+
+It should result with 'Command play-config executed successfully.'
+
+h2. Deploy a Play application
+
+You can try to deploy one of the sample application provided with the framework. Let's try to deloy 'zencontact'; at the *asadmin* prompt enter:
+
+bc. asadmin> deploy --contextroot zen /Users/guillaume/Desktop/play/1.1/samples-and-tests/zencontact
+
+It should result with 'Application deployed successfully with name zencontact.'
+
+You can now try to launch the app at "http://localhost:8080/zen":http://localhost:8080/zen, and the application should appear in the glassfish GUI admin. We will add the GUI screens for Play container soon.  
