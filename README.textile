@@ -36,4 +36,4 @@ Enter the *admingui* directory and run:
 
 bc. mvn package
 
-Then copy the *target/console-play-plugin.jar* library to *$GLASSFISH_HOME/glassfish/modules*. Restart the glassfish server and open the administration console at "http://localhost:4848":http://localhost:4848. There is now a *Play Container* configuration page under the *Configuration* node. And you can choose *Play Application* in the drop down list od the deployment page.
+Then copy the *target/console-play-plugin.jar* library to *$GLASSFISH_HOME/glassfish/modules*. Restart the glassfish server and open the administration console at "http://localhost:4848":http://localhost:4848. There is now a *Play Container* configuration page under the *Configuration* node. And you can choose *Play Application* in the drop down list of the deployment page.
