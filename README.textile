@@ -6,11 +6,11 @@ bq. Try the following steps with Glassfish 3.0.1 and "play-1.1-unstable-r1075":h
 
 h2. Build the play-container.jar for glassfish
 
-Just run:
+Enter the container directory and run:
 
 bc. mvn package
 
-And copy the *target/play-container.jar* library to *$GLASSFISH_HOME/glassfish/modules*. That's all, the container is installed. It will be available in the glassfish repository once officially released.
+Then copy the *target/play-container.jar* library to *$GLASSFISH_HOME/glassfish/modules*. That's all, the container is installed. It will be available in the glassfish repository once officially released.
 
 h2. Configure the Play container
 
@@ -28,4 +28,12 @@ bc. asadmin> deploy --contextroot zen /Users/guillaume/Desktop/play/1.1/samples-
 
 It should result with 'Application deployed successfully with name zencontact.'
 
-You can now try to launch the app at "http://localhost:8080/zen":http://localhost:8080/zen, and the application should appear in the glassfish GUI admin. We will add the GUI screens for Play container soon.  
+You can now try to launch the app at "http://localhost:8080/zen":http://localhost:8080/zen, and the application should appear in the glassfish GUI admin. We will add the GUI screens for Play container soon. 
+
+h2. Build the admin GUI plugin
+
+Enter the admingui directory and run:
+
+bc. mvn package
+
+Then copy the *target/console-play-plugin.jar* library to *$GLASSFISH_HOME/glassfish/modules*. Restart the glassfish server and open the administration console at "http://localhost:4848":http://localhost:4848. There is now a *Play Container* configuration page under the *Configuration* node. And you can choose *Play Application* in the drop down list od the deployment page.
