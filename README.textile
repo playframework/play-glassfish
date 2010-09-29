@@ -6,7 +6,7 @@ bq. Try the following steps with Glassfish 3.0.1 and "play-1.1-unstable-r1075":h
 
 h2. Build the play-container.jar for glassfish
 
-Enter the container directory and run:
+Enter the *container* directory and run:
 
 bc. mvn package
 
@@ -32,7 +32,7 @@ You can now try to launch the app at "http://localhost:8080/zen":http://localhos
 
 h2. Build the admin GUI plugin
 
-Enter the admingui directory and run:
+Enter the *admingui* directory and run:
 
 bc. mvn package
 
