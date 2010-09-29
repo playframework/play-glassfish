@@ -1,0 +1,81 @@
+<!-- This is the plugin property sheet for deploying play apps.
+     id of the property sheet has to be the same as the plugin options for the Type dropdown in the deployment page.
+ -->
+
+<sun:propertySheet id="play" visible="#{false}" >
+    <!beforeCreate
+        createMap(result="#{pageSession.play}")
+        mapPut(map="#{pageSession.deployMap}", key="play", value="#{pageSession.play}");
+        mapPut(map="#{pageSession.play}", key="convertToFalseList", value={"enabled" ,"force" } );
+        setPageSessionAttribute(key="pHomeObj" value="amx:pp=/domain/configs/config[server-config],type=play-container-config")
+
+        proxyExist(objectNameStr="#{pageSession.pHomeObj}" exist="#{requestScope.playHomeInitialized}")
+        if (#{requestScope.playHomeInitialized}){
+            getProxyAttribute(objectNameStr="#{pageSession.pHomeObj}" attrName="FrameworkPath" value="#{pageSession.play['PROPERTY-play.home']}");
+        }
+
+        setPageSessionAttribute(key="edit" value="#{false}")
+
+     />
+    <!afterCreate
+        getClientId(component="$this{component}" clientId=>$page{playId});
+    />
+    <sun:propertySheetSection id="psection" >
+
+<sun:property id="nameProp" rendered="#{!edit}"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.ApplicationName}" >
+    <sun:textField id="appName" columns="$int{40}" maxLength="#{sessionScope.fieldLengths['maxLength.deploy.ApplicationName']}" text="#{pageSession.play['name']}" styleClass="required" required="#{true}"
+        onChange="javascript: setAppName('#{appNameId}', this.value, window)">
+        <!afterCreate
+            getClientId(component="$this{component}" clientId=>$page{appNameId});
+        />
+    </sun:textField>
+</sun:property>
+
+<sun:property id="cxp" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.webApp.ContextRoot}" helpText="$resource{i18n.webApp.contextRootHelp}" >
+    <sun:textField id="ctx" columns="$int{40}" maxLength="#{sessionScope.fieldLengths['maxLength.webApp.ContextRoot']}" text="#{pageSession.play['contextroot']}" >
+        <!afterCreate
+            getClientId(component="$this{component}" clientId=>$page{contextRootId});
+        />
+    </sun:textField>
+</sun:property>
+
+<sun:property id="enableProp" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.status}"  helpText="$resource{i18n.deploy.statusHelp}">
+	<sun:checkbox label="$resource{i18n.common.Enabled}" selected="#{pageSession.play['enabled']}" selectedValue="true" >
+        <!beforeCreate
+            mapPut(map="#{pageSession.play}", key="enabled", value="true" );
+        />
+    </sun:checkbox>
+</sun:property>
+
+
+<sun:property id="force" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.forceRedeploy}" helpText="$resource{i18n.deploy.forceRedeployHelp}">
+        <sun:checkbox id="force"  selected="#{pageSession.play['force']}" selectedValue="true" />
+</sun:property>
+
+<sun:property id="phome" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play Framework path" helpText="Absolute path to the Play framework installation">
+    <sun:textField id="phome" columns="$int{40}" maxLength="$int{400}" text="#{pageSession.play['PROPERTY-play.home']}" />
+</sun:property>
+
+<sun:property id="vsProp"  rendered="#{pageSession.onlyDASExist}" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.virtualServerLabel}" helpText="$resource{i18n.deploy.vsHelp}">
+    <sun:listbox id="vs" immediate="#{true}" multiple="#{true}"  rows="$int{4}"
+        labels="$pageSession{availableVS}"
+        selected="#{pageSession.play['virtualservers']}" >
+        <!beforeCreate
+            getVsForDeployment(result="#{pageSession.vsList}");
+            getListBoxOptions(
+                availableList="#{pageSession.vsList}",
+                selectedCommaString="",
+                availableListResult="#{pageSession.availableVS}",
+                selectedOptions="#{pageSession.play['virtualservers']}"
+                addEmptyFirstChoice="true");
+        />
+    </sun:listbox>
+</sun:property>
+
+<sun:property id="descriptionProp" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.common.description}" helpText="$resource{i18n.deploy.descHelp}" >
+	<sun:textField id="description" columns="$int{40}" maxLength="#{sessionScope.fieldLengths['maxLength.common.description']}" text="#{pageSession.play['description']}" />
+</sun:property>
+
+
+    </sun:propertySheetSection>
+</sun:propertySheet>

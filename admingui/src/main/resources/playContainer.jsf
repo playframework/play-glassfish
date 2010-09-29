@@ -1,0 +1,55 @@
+<!composition template="/templates/default.layout"  guiTitle="Play Container" >
+<!define name="content">
+<event>
+    <!beforeCreate
+
+        getRequestValue(key="configName" value="#{pageSession.configName}"  default="server-config" )
+        setPageSessionAttribute(key="parentObjectNameStr", value="amx:pp=/domain/configs,type=config,name=#{pageSession.configName}");
+        setPageSessionAttribute(key="childType" value="play-container-config");
+        setPageSessionAttribute(key="objectNameStr" value="amx:pp=/domain/configs/config[#{pageSession.configName}],type=play-container-config");
+        proxyExist(objectNameStr="#{pageSession.objectNameStr}" exist="#{pageSession.containerExist}")
+
+        setPageSessionAttribute(key="selfPage" value="#{request.contextPath}/play/playContainer.jsf?");
+
+        if (#{pageSession.containerExist}){
+            setPageSessionAttribute(key="edit" value="#{true}" );
+            getProxyAttrs(objectNameStr="#{pageSession.objectNameStr}" valueMap="#{pageSession.valueMap}");
+        }
+        if (! #{pageSession.containerExist}){
+            setPageSessionAttribute(key="edit" value="#{false}" )
+            setPageSessionAttribute(key="showSuccessfulMsg" value="#{true}" )
+            getDefaultProxyAttrs( parentObjectNameStr="#{pageSession.parentObjectNameStr}" childType="#{pageSession.childType}"  valueMap="#{pageSession.valueMap}")
+        }
+
+        setPageSessionAttribute(key="showDefaultButton" value="#{true}" );
+        setPageSessionAttribute(key="showCancelButton" value="#{false}" );
+        setPageSessionAttribute(key="hasPropertySheet" value="#{true}" );
+        setPageSessionAttribute(key="hasPropertyTable" value="#{false}" );
+
+    />
+</event>
+
+<sun:form id="form1">
+#include "/common/shared/alertMsg.inc"
+    <sun:title id="propertyContentPage" title="Play Container" helpText="This container can host Play applications" >
+#include "/common/shared/editPageButtons.inc"
+    </sun:title>
+    <!-- PropertySheet .... -->
+    <sun:propertySheet id="propertySheet">
+        <!-- Text Field section -->
+        <sun:propertySheetSection id="propertySectionTextField">
+
+            <sun:property id="fpath" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play framework path" helpText="The absolute path to your local Play framework installation">
+                <sun:textField id="jhome" columns="$int{60}" maxLength="$int{500}" text="#{pageSession.valueMap['FrameworkPath']}" />
+            </sun:property>
+
+        </sun:propertySheetSection>
+    </sun:propertySheet>
+
+    <sun:hidden id="helpKey" value="Help!" />
+
+</sun:form>
+
+</define>
+</composition>
+

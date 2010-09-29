@@ -1,0 +1,8 @@
+<sun:property>
+    <sun:hyperlink 
+	    toolTip="Play Container"
+	    url="/play/playContainer.jsf">
+        <sun:image url="/resource/play/images/sample.png" />
+        <sun:staticText text="Play Container" />
+    </sun:hyperlink>
+</sun:property>

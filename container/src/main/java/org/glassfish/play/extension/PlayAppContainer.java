@@ -28,12 +28,12 @@ public class PlayAppContainer implements ApplicationContainer {
     final File framework;
     ClassLoader applicationClassLoader;
     
-    public PlayAppContainer(PlayContainer ctr, RequestDispatcher dispatcher, File appDir, String contextRoot, PlayContainerConfig config) {
+    public PlayAppContainer(PlayContainer ctr, RequestDispatcher dispatcher, File appDir, String contextRoot, File frameworkPath) {
         this.ctr = ctr;
         this.dispatcher = dispatcher;
         this.appDir = appDir;
         this.contextPath = contextRoot;
-        this.framework = new File(config.getFrameworkPath());
+        this.framework = frameworkPath;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PlayAppContainer implements ApplicationContainer {
     @Override
     public boolean start(ApplicationContext startupContext) throws Exception {
         if(!this.framework.exists() || !new File(this.framework, "play").exists()) {
-            logger.log(Level.SEVERE, "Please configure the Play framework path before");
+            logger.log(Level.SEVERE, "Invalid path for Play framework: " + framework.getAbsolutePath());
             return false;
         }
         // Build the classpath

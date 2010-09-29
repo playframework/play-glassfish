@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<console-config id="play">
+    
+    <integration-point
+        id="playConfigNode"
+        type="org.glassfish.admingui:navNode"
+        priority="100"
+        parentId="configuration"
+        content="playConfigNode.jsf"/>
+       
+    <integration-point
+        id="playConfigurationLink"
+        type="org.glassfish.admingui:configuration"
+        priority="100"
+        parentId="propSheetSection"
+        content="playConfigLink.jsf"/>
+
+    <integration-point
+        id="playDeployType"
+        type="org.glassfish.admingui:appTypeDropdown"
+        priority="500"
+        parentId="form"
+        content="Play Application;play"/>
+
+    <integration-point
+        id="playDeploy"
+        type="org.glassfish.admingui:uploadPropertySheet"
+        priority="100"
+        parentId="form"
+        content="playDeployment.jsf"/>
+
+     <integration-point
+        id="playEditApp"
+        type="org.glassfish.admingui:editAppPage"
+        content="play:play/playApp.jsf"/>
+
+        
+</console-config>

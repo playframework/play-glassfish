@@ -1,0 +1,5 @@
+<sun:treeNode id="playConfigNode"
+        text="Play Container"
+        url="/play/playContainer.jsf"
+        imageURL="/resource/play/images/sample.png">
+</sun:treeNode>

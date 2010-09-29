@@ -1,0 +1,57 @@
+<!initPage
+    setPageSessionAttribute(key="showContextRoot" value="#{true}")
+    setPageSessionAttribute(key="showVS" value="#{false}")
+    setPageSessionAttribute(key="showJavaWebStart" value="#{false}")
+    setPageSessionAttribute(key="editPage" value="#{request.contextPath}/play/playApp.jsf")
+/>
+
+<!composition template="/common/applications/appEdit.layout"   >
+<!define name="editAppFields">
+<sun:propertySheet id="propertySheet">
+    <!-- Text Field section -->
+    <sun:propertySheetSection id="propertSectionTextField">
+
+    <sun:property id="jndiProp"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.common.Name}">
+            <sun:staticText id="name" text="#{pageSession.appName}"/>
+        </sun:property>
+
+    <sun:property id="ctxProp" rendered="#{pageSession.showContextRoot}" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.webApp.ContextRoot}" helpText="$resource{i18n.webApp.contextRootHelp}" >
+        <sun:textField id="ctx" columns="$int{40}" maxLength="#{sessionScope.fieldLengths['maxLength.webApp.ContextRoot']}" text="#{pageSession.valueMap['ContextRoot']}" />
+    </sun:property>
+
+    <sun:property id="statusProp"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.common.status}">
+        <sun:checkbox label="$resource{i18n.common.Enabled}" selected="#{pageSession.valueMap2['Enabled']}" selectedValue="true" />
+    </sun:property>
+
+    <sun:property id="phome" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play Framework Path" helpText="Absolute path to the Play framework installation">
+        <sun:textField id="phome" columns="$int{40}" maxLength="$int{400}" text="#{pageSession.propMap['play.home']}" />
+    </sun:property>
+
+    <sun:property id="vsProp"  rendered="#{pageSession.finalShowVS}" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.virtualServerLabel}" helpText="$resource{i18n.deploy.vsHelp}">
+        <sun:listbox id="vs" immediate="#{true}" multiple="#{true}"  rows="$int{4}"
+            labels="$pageSession{availableVS}"
+            selected="#{pageSession.selectedVS}" >
+            <!beforeCreate
+                getVsForDeployment(result="#{pageSession.vsList}");
+                getListBoxOptions(
+                    availableList="#{pageSession.vsList}",
+                    selectedCommaString="#{pageSession.valueMap2['VirtualServers']}",
+                    availableListResult="#{pageSession.availableVS}",
+                    selectedOptions="#{pageSession.selectedVS}"
+                    addEmptyFirstChoice="true");
+            />
+            </sun:listbox>
+    </sun:property>
+
+     <sun:property id="descProp" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.common.description}">
+            <sun:textField id="desc" columns="$int{40}" maxLength="#{sessionScope.fieldLengths['maxLength.common.description']}" text="#{pageSession.valueMap['Description']}" />
+        </sun:property>
+
+        <sun:property id="locationProp"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.common.location}">
+            <sun:staticText id="location" text="#{pageSession.valueMap['Location']}"/>
+        </sun:property>
+
+</sun:propertySheetSection>
+</sun:propertySheet>
+</define>
+</composition>

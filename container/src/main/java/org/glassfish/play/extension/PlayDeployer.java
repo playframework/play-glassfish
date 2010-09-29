@@ -1,5 +1,6 @@
 package org.glassfish.play.extension;
 
+import java.io.File;
 import org.glassfish.api.deployment.Deployer;
 import org.glassfish.api.deployment.MetaData;
 import org.glassfish.api.deployment.DeploymentContext;
@@ -42,7 +43,8 @@ public class PlayDeployer implements Deployer<PlayContainer, PlayAppContainer> {
             contextRoot = "/" + contextRoot;
         }
         context.getModuleProps().setProperty("context-root", contextRoot);
-        PlayAppContainer appCtr = new PlayAppContainer(container, dispatcher, context.getSourceDir(), contextRoot, config);
+        String playHome = context.getModuleProps().getProperty("play.home", config.getFrameworkPath());
+        PlayAppContainer appCtr = new PlayAppContainer(container, dispatcher, context.getSourceDir(), contextRoot, new File(playHome));
         return appCtr;
     }
 
