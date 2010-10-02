@@ -2,7 +2,7 @@ h1. This is a Play container for Glassfish
 
 It allows to deploy any Play application directly in the Glassfish application server (without to have to package it as WAR archive before).
 
-bq. Try the following steps with Glassfish 3.0.1 and "play-1.1-unstable-r1075":http://download.playframework.org/1.1-nightly/play-1.1-unstable-r1075.zip. Also I've my Play installation at /Users/guillaume/Desktop/play/1.1; be sure to change the following commands to match your real installation path
+bq. Try the following steps with Glassfish 3.0.1 and "play-1.1-unstable-r1095":http://download.playframework.org/1.1-nightly/play-1.1-unstable-r1095.zip. Also I've my Play installation at /Users/guillaume/Desktop/play/1.1; be sure to change the following commands to match your real installation path
 
 h2. Build the play-container.jar for glassfish
 
