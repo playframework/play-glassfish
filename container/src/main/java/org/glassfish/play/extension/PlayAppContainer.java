@@ -56,9 +56,12 @@ public class PlayAppContainer implements ApplicationContainer {
         }
         jars.add(new File(this.framework, "framework/play.jar").toURI().toURL());
         jars.add(new File(this.framework, "modules/grizzly/lib/play-grizzly.jar").toURI().toURL());
-        for(File jar : new File(this.appDir, "lib").listFiles()) {
-            if(jar.getName().endsWith(".jar")) {
-                jars.add(jar.toURI().toURL());
+        File addDirLib = new File(this.appDir, "lib");
+        if (addDirLib != null && addDirLib.listFiles() != null) {
+            for(File jar : addDirLib.listFiles()) {
+                if(jar.getName().endsWith(".jar")) {
+                    jars.add(jar.toURI().toURL());
+                }
             }
         }
         URL[] classpath = jars.toArray(new URL[jars.size()]);
