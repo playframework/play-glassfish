@@ -26,14 +26,16 @@ public class PlayAppContainer implements ApplicationContainer {
     final File appDir;
     final String contextPath;
     final File framework;
+    final String frameworkId;
     ClassLoader applicationClassLoader;
     
-    public PlayAppContainer(PlayContainer ctr, RequestDispatcher dispatcher, File appDir, String contextRoot, File frameworkPath) {
+    public PlayAppContainer(PlayContainer ctr, RequestDispatcher dispatcher, File appDir, String contextRoot, File frameworkPath, String frameworkId) {
         this.ctr = ctr;
         this.dispatcher = dispatcher;
         this.appDir = appDir;
         this.contextPath = contextRoot;
         this.framework = frameworkPath;
+        this.frameworkId = frameworkId;
     }
 
     @Override
@@ -75,7 +77,7 @@ public class PlayAppContainer implements ApplicationContainer {
             Thread.currentThread().setContextClassLoader(applicationClassLoader);
             Class adapterClass = applicationClassLoader.loadClass("play.modules.grizzly.PlayGrizzlyAdapter");
             adapter = GrizzlyAdapter.class.cast(
-                    adapterClass.getConstructor(File.class, String.class, String.class).newInstance(appDir, "glassfish", contextPath)
+                    adapterClass.getConstructor(File.class, String.class, String.class).newInstance(appDir, frameworkId, contextPath)
             );
         } finally {
             Thread.currentThread().setContextClassLoader(originalCtxClassLoader);

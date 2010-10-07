@@ -13,7 +13,10 @@
         if (#{requestScope.playHomeInitialized}){
             getProxyAttribute(objectNameStr="#{pageSession.pHomeObj}" attrName="FrameworkPath" value="#{pageSession.play['PROPERTY-play.home']}");
         }
-
+		proxyExist(objectNameStr="#{pageSession.pHomeObj}" exist="#{requestScope.playIdInitialized}")
+        if (#{requestScope.playIdInitialized}){
+            getProxyAttribute(objectNameStr="#{pageSession.pHomeObj}" attrName="FrameworkId" value="#{pageSession.play['PROPERTY-play.id']}");
+        }
         setPageSessionAttribute(key="edit" value="#{false}")
 
      />
@@ -54,6 +57,10 @@
 
 <sun:property id="phome" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play Framework path" helpText="Absolute path to the Play framework installation">
     <sun:textField id="phome" columns="$int{40}" maxLength="$int{400}" text="#{pageSession.play['PROPERTY-play.home']}" />
+</sun:property>
+
+<sun:property id="pid" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play Framework Id" helpText="Play framework Id">
+    <sun:textField id="pid" columns="$int{40}" maxLength="$int{400}" text="#{pageSession.play['PROPERTY-play.id']}" />
 </sun:property>
 
 <sun:property id="vsProp"  rendered="#{pageSession.onlyDASExist}" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n.deploy.virtualServerLabel}" helpText="$resource{i18n.deploy.vsHelp}">

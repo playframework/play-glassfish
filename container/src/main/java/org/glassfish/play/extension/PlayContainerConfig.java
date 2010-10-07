@@ -12,4 +12,8 @@ public interface PlayContainerConfig extends Container {
     public String getFrameworkPath();
     public void setFrameworkPath(String path) throws PropertyVetoException;
 
+    @Attribute
+    public String getFrameworkId();
+    public void setFrameworkId(String id) throws PropertyVetoException;
+
 }

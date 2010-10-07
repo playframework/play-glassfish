@@ -44,7 +44,8 @@ public class PlayDeployer implements Deployer<PlayContainer, PlayAppContainer> {
         }
         context.getModuleProps().setProperty("context-root", contextRoot);
         String playHome = context.getModuleProps().getProperty("play.home", config.getFrameworkPath());
-        PlayAppContainer appCtr = new PlayAppContainer(container, dispatcher, context.getSourceDir(), contextRoot, new File(playHome));
+        String playId = context.getModuleProps().getProperty("play.id", config.getFrameworkId());
+        PlayAppContainer appCtr = new PlayAppContainer(container, dispatcher, context.getSourceDir(), contextRoot, new File(playHome), playId);
         return appCtr;
     }
 

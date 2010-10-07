@@ -22,6 +22,9 @@ public class PlayConfigCommand implements AdminCommand {
     @Param
     String frameworkPath;
     
+    @Param
+    String frameworkId;
+    
     @Inject(optional = true)
     PlayContainerConfig config;
 
@@ -49,6 +52,7 @@ public class PlayConfigCommand implements AdminCommand {
 
                 public Object run(PlayContainerConfig playContainerConfig) throws PropertyVetoException, TransactionFailure {
                     playContainerConfig.setFrameworkPath(frameworkPath);
+                    playContainerConfig.setFrameworkId(frameworkId);
                     return null;
                 }
             }, config);

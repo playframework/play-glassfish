@@ -42,7 +42,9 @@
             <sun:property id="fpath" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play framework path" helpText="The absolute path to your local Play framework installation">
                 <sun:textField id="jhome" columns="$int{60}" maxLength="$int{500}" text="#{pageSession.valueMap['FrameworkPath']}" />
             </sun:property>
-
+			<sun:property id="fid" labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="Play framework id" helpText="Play framework Id">
+                <sun:textField id="jid" columns="$int{60}" maxLength="$int{500}" text="#{pageSession.valueMap['FrameworkId']}" />
+            </sun:property>
         </sun:propertySheetSection>
     </sun:propertySheet>
 
