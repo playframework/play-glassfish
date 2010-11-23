@@ -5,12 +5,14 @@ import org.glassfish.api.deployment.ApplicationContext;
 import org.glassfish.api.container.RequestDispatcher;
 import org.glassfish.api.container.EndpointRegistrationException;
 import com.sun.grizzly.tcp.http11.GrizzlyAdapter;
-import java.io.File;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,21 +50,52 @@ public class PlayAppContainer implements ApplicationContainer {
             return false;
         }
         // Build the classpath
-        List<URL> jars = new ArrayList<URL>();
+        List<URL> classpath = new ArrayList<URL>();
+        
+        // The default
+        classpath.add(new File(this.appDir, "conf").toURI().toURL());
+        classpath.add(new File(this.framework, "framework/play.jar").toURI().toURL());
+        
+        // The application
+        if(new File(this.appDir, "lib").exists()) {
+            for(File jar : new File(this.appDir, "lib").listFiles()) {
+                if(jar.getName().endsWith(".jar")) {
+                    classpath.add(jar.toURI().toURL());
+                }
+            }
+        }
+
+        // The modules
+        classpath.add(new File(this.framework, "modules/grizzly/lib/play-grizzly.jar").toURI().toURL());
+        Properties applicationConf = new Properties();
+        {
+            FileInputStream fis = new FileInputStream(new File(this.appDir, "conf/application.conf"));
+            applicationConf.load(fis);
+            fis.close();
+        }
+        for(Object key : applicationConf.keySet()) {
+            if(key.toString().startsWith("module.") || key.toString().startsWith("%glassfish.module.")) {
+                String path = (String)applicationConf.get(key);
+                File moduleRoot = new File(path.replace("${play.path}", this.framework.getAbsolutePath()));
+                if(new File(moduleRoot, "lib").exists()) {
+                    for(File jar : new File(moduleRoot, "lib").listFiles()) {
+                        if(jar.getName().endsWith(".jar")) {
+                            classpath.add(jar.toURI().toURL());
+                        }
+                    }
+                }
+            }
+        }
+        
+        // The framework
         for(File jar : new File(this.framework, "framework/lib").listFiles()) {
             if(jar.getName().endsWith(".jar")) {
-                jars.add(jar.toURI().toURL());
+                classpath.add(jar.toURI().toURL());
             }
         }
-        jars.add(new File(this.framework, "framework/play.jar").toURI().toURL());
-        jars.add(new File(this.framework, "modules/grizzly/lib/play-grizzly.jar").toURI().toURL());
-        for(File jar : new File(this.appDir, "lib").listFiles()) {
-            if(jar.getName().endsWith(".jar")) {
-                jars.add(jar.toURI().toURL());
-            }
-        }
-        URL[] classpath = jars.toArray(new URL[jars.size()]);
-        applicationClassLoader = new URLClassLoader(classpath, startupContext.getClassLoader());
+        
+        URL[] computedClasspath = classpath.toArray(new URL[classpath.size()]);
+        applicationClassLoader = new URLClassLoader(computedClasspath, startupContext.getClassLoader());
 
         logger.info("Starting Play application from " + appDir + " to " + contextPath);
 
