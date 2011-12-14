@@ -15,8 +15,11 @@ import org.jvnet.hk2.component.Habitat;
 import org.jvnet.hk2.config.ConfigSupport;
 import org.jvnet.hk2.config.SingleConfigCode;
 import org.jvnet.hk2.config.TransactionFailure;
+import org.jvnet.hk2.component.PerLookup;
+import org.jvnet.hk2.annotations.Scoped;
 
 @Service(name = "play-config")
+@Scoped(PerLookup.class)
 public class PlayConfigCommand implements AdminCommand {
 
     @Param

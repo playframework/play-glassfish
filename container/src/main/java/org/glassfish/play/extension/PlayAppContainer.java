@@ -42,6 +42,18 @@ public class PlayAppContainer implements ApplicationContainer {
     public Object getDescriptor() {
         return null;
     }
+    
+    // Finds eighter play.jar or play-x.y.z.jar
+    private File resolvePlayJarFile(File playFrameworkFolder) {
+        // just find the first play*.jar file
+        for ( File file : playFrameworkFolder.listFiles()) {
+            String name = file.getName();
+            if ( name.startsWith("play") && name.endsWith(".jar")) {
+                return file;
+            }
+        }
+        return null;
+    }
                        
     @Override
     public boolean start(ApplicationContext startupContext) throws Exception {
@@ -54,7 +66,15 @@ public class PlayAppContainer implements ApplicationContainer {
         
         // The default
         classpath.add(new File(this.appDir, "conf").toURI().toURL());
-        classpath.add(new File(this.framework, "framework/play.jar").toURI().toURL());
+        
+        // find the correct play.jar file
+        File frameworkFolder = new File(this.framework, "framework/");
+        File playJarFile = resolvePlayJarFile( frameworkFolder);
+        if ( playJarFile == null ) {
+            logger.log(Level.SEVERE, "Cannot find any play*.jar file inside " + frameworkFolder.getAbsolutePath());
+            return false;
+        } 
+        classpath.add(playJarFile.toURI().toURL());
         
         // The application
         if(new File(this.appDir, "lib").exists()) {
